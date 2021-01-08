@@ -74,6 +74,8 @@ type Client interface {
 	//
 	// The batch may be done in on or more transactions.
 	SubmitEarnBatch(ctx context.Context, batch EarnBatch, opts ...SolanaOption) (result EarnBatchResult, err error)
+
+	GetInternalClient() (internal *InternalClient)
 }
 
 type client struct {
@@ -578,6 +580,10 @@ func (c *client) SubmitPayment(ctx context.Context, payment Payment, opts ...Sol
 	}
 
 	return result.ID, nil
+}
+
+func (c *client) GetInternalClient() (internal *InternalClient) {
+	return c.internal
 }
 
 // SubmitEarnBatch submits a batch of earn payments in a single transaction.
